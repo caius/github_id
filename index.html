@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Find your github user id</title>
+
+    <style type="text/css" media="screen">
+      body {
+        font-size: 200%;
+        text-align: center;
+        margin: auto 0;
+        margin-top: 5em;
+        font-family: Courier, monospace;
+      }
+
+      label {
+        display: block;
+      }
+
+      input[type=text] {
+        font-size: 80%;
+      }
+
+      #success,
+      form p {
+        display: none;
+      }
+    </style>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    function get_github_id_for (username, callback) {
+      $.getJSON('http://github.com/api/v2/json/user/show/' + username + "?callback=?", {},
+       function(json){
+         var id = null
+
+         id = json["user"]["id"]
+
+         if (id) {
+           callback(id)
+         }
+      });
+    }
+
+    $(document).ready(function() {
+
+      $('form').submit(function() {
+        $('form p').show()
+        var username = $("#github_username").val()
+
+        $('#username').text(username)
+
+        get_github_id_for(username, function(id) {
+
+          $('#id').text(id)
+          $('form').hide()
+          $('#success').show()
+        })
+
+        return false
+      });
+
+    });
+    </script>
+
+  </head>
+  <body>
+
+    <form id="input" action="#" accept-charset="utf-8">
+      <h1>Find Github User ID</h1>
+      <input type="text" name="github_username" id="github_username" placeholder="Github Username" />
+
+      <br />
+      <input type="submit" value="Find id &rarr;" />
+      <p>Finding&hellip;</p>
+    </form>
+
+    <div id="success">
+      <h1><span id="username"></span> is github user #<span id="id"></span></h1>
+      <p><a href="http://caius.github.com/github_id/">Search again?</a></p>
+    </div>
+
+  </body>
+</html>
