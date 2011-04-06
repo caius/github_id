@@ -43,6 +43,10 @@
       });
     }
 
+    function add_twitter_link_for (id) {
+      var tweet = $('<a>').text("Tweet this").attr('href', "https://twitter.com?status=" + encodeURIComponent("Found out I'm GitHub user " + id + " by using http://caius.github.com/github_id/")).insertAfter("#success h1")
+    }
+
     $(document).ready(function() {
 
       $('form').submit(function() {
@@ -55,6 +59,7 @@
 
           $('#id').text(id)
           $('form').hide()
+          add_twitter_link_for(id)
           $('#success').show()
         })
 
@@ -64,6 +69,20 @@
     });
     </script>
 
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-3041721-6']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
   </head>
   <body>
 
@@ -78,7 +97,6 @@
 
     <div id="success">
       <h1><span id="username"></span> is github user #<span id="id"></span></h1>
-      <p><a href="http://caius.github.com/github_id/">Search again?</a></p>
     </div>
 
   </body>
