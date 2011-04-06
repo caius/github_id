@@ -31,15 +31,14 @@
     <script type="text/javascript" charset="utf-8">
 
     function get_github_id_for (username, callback) {
+
       $.getJSON('http://github.com/api/v2/json/user/show/' + username + "?callback=?", {},
        function(json){
-         var id = null
-
-         id = json["user"]["id"]
-
+         var id = json["user"]["id"]
          if (id) {
-           callback(id)
+           callback(username, id)
          }
+         return false
       });
     }
 
@@ -47,20 +46,36 @@
       var tweet = $('<a>').text("Tweet this").attr('href', "https://twitter.com?status=" + encodeURIComponent("Found out I'm GitHub user " + id + " by using http://caius.github.com/github_id/")).insertAfter("#success h1")
     }
 
+    function show_user (username, id) {
+      $('#username').text(username)
+      $('#id').text(id)
+      $('form').hide()
+      $('#success').show()
+    }
+
     $(document).ready(function() {
 
-      $('form').submit(function() {
+      if (document.location.hash) {
+        // $('form p').show()
+        var name = document.location.hash.match(/^#(.*?)$/)[1]
+        get_github_id_for(name, function(username, id) {
+          show_user(username, id)
+          // $('form p').hide()
+          $('form h1').hide()
+          $('form').show()
+        })
+      }
+
+      $('form').submit(function(event) {
+        event.preventDefault()
+
         $('form p').show()
-        var username = $("#github_username").val()
+        var name = $("#github_username").val()
 
-        $('#username').text(username)
-
-        get_github_id_for(username, function(id) {
-
-          $('#id').text(id)
-          $('form').hide()
+        get_github_id_for(name, function(username, id) {
           add_twitter_link_for(id)
-          $('#success').show()
+          show_user(username, id)
+          document.location.hash = "#" + username
         })
 
         return false
@@ -71,20 +86,21 @@
 
 
     <script type="text/javascript">
-
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-3041721-6']);
       _gaq.push(['_trackPageview']);
-
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-
     </script>
   </head>
   <body>
+
+    <div id="success">
+      <h1><span id="username"></span> is github user #<span id="id"></span></h1>
+    </div>
 
     <form id="input" action="#" accept-charset="utf-8">
       <h1>Find Github User ID</h1>
@@ -94,10 +110,6 @@
       <input type="submit" value="Find id &rarr;" />
       <p>Finding&hellip;</p>
     </form>
-
-    <div id="success">
-      <h1><span id="username"></span> is github user #<span id="id"></span></h1>
-    </div>
 
   </body>
 </html>
