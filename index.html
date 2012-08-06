@@ -31,7 +31,7 @@
         font-size: 50%;
         color: #555;
       }
-      
+
       #footer a {
         color: #555;
         text-decoration: none;
@@ -44,9 +44,9 @@
 
     function get_github_id_for (username, callback) {
 
-      $.getJSON('http://github.com/api/v2/json/user/show/' + username + "?callback=?", {},
+      $.getJSON('https://api.github.com/users/' + username + "?callback=?", {},
        function(json){
-         var id = json["user"]["id"]
+         var id = json["data"]["id"]
          if (id) {
            callback(username, id)
          }
