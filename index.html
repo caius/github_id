@@ -82,7 +82,7 @@
         event.preventDefault()
 
         $('form p').show()
-        var name = $("#github_username").val()
+        var name = $("#github_username").val().trim()
 
         get_github_id_for(name, function(username, id) {
           add_twitter_link_for(username, id)
