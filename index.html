@@ -56,10 +56,6 @@
       });
     }
 
-    function add_twitter_link_for (username, id) {
-      var tweet = $('<a>').text("Tweet this").attr('href', "https://twitter.com?status=" + encodeURIComponent("Found out I'm GitHub user " + id + " by using http://caius.github.com/github_id/#" + username + " #GitHub_id")).insertAfter("#success h1")
-    }
-
     function show_user (username, id) {
       $('#username').text(username)
       $('#id').text(id)
@@ -87,7 +83,6 @@
         var name = $("#github_username").val().trim()
 
         get_github_id_for(name, function(username, id) {
-          add_twitter_link_for(username, id)
           show_user(username, id)
           document.location.hash = "#" + username
         })
