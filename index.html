@@ -27,6 +27,16 @@
       form p {
         display: none;
       }
+        
+      .go-back-button {
+        color: white;
+        text-decoration: none;
+        transition: color .5s ease-in-out;
+      }
+        
+      .go-back-button:hover, .go-back-button:focus {
+        color: #1D9AF1;
+      }
 
       #footer {
         margin-top: 5em;
@@ -59,8 +69,9 @@
     function show_user (username, id) {
       $('#username').text(username)
       $('#id').text(id)
-      $('form').show()
+      $('form').hide()
       $('#success').show()
+      $('#goback').show()
     }
 
     $(document).ready(function() {
@@ -109,6 +120,7 @@
 
     <div id="success">
       <h1><span id="username"></span> is GitHub user #<span id="id"></span></h1>
+      <a href="/github_id" class="go-back-button">Go back</a>
     </div>
 
     <form id="input" action="#" accept-charset="utf-8">
