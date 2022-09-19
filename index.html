@@ -10,6 +10,8 @@
         text-align: center;
         margin: auto 0;
         margin-top: 5em;
+        color: white;
+        background-color: #171A22;
         font-family: Courier, monospace;
       }
 
@@ -25,15 +27,25 @@
       form p {
         display: none;
       }
+        
+      .go-back-button {
+        color: white;
+        text-decoration: none;
+        transition: color .5s ease-in-out;
+      }
+        
+      .go-back-button:hover, .go-back-button:focus {
+        color: #1D9AF1;
+      }
 
       #footer {
         margin-top: 5em;
         font-size: 50%;
-        color: #555;
+        color: #bfbfbf;
       }
 
       #footer a {
-        color: #555;
+        color: #bfbfbf;
         text-decoration: none;
         border-bottom: 1px dotted;
       }
@@ -50,12 +62,9 @@
          if (id) {
            callback(username, id)
          }
+         $("form p").text(username + " not found.")
          return false
       });
-    }
-
-    function add_twitter_link_for (username, id) {
-      var tweet = $('<a>').text("Tweet this").attr('href', "https://twitter.com?status=" + encodeURIComponent("Found out I'm GitHub user " + id + " by using http://caius.github.com/github_id/#" + username + " #GitHub_id")).insertAfter("#success h1")
     }
 
     function show_user (username, id) {
@@ -63,6 +72,7 @@
       $('#id').text(id)
       $('form').hide()
       $('#success').show()
+      $('#goback').show()
     }
 
     $(document).ready(function() {
@@ -85,7 +95,6 @@
         var name = $("#github_username").val().trim()
 
         get_github_id_for(name, function(username, id) {
-          add_twitter_link_for(username, id)
           show_user(username, id)
           document.location.hash = "#" + username
         })
@@ -102,6 +111,7 @@
 
     <div id="success">
       <h1><span id="username"></span> is GitHub user #<span id="id"></span></h1>
+      <a href="/github_id" class="go-back-button">Go back</a>
     </div>
 
     <form id="input" action="#" accept-charset="utf-8">
@@ -116,6 +126,7 @@
 
     <div id="footer">
       <p>A hack born out of idle curiosity by GitHub user #696: <a href="http://caius.name/">Caius Durling</a></p>
+      <p>Darkmode created by: <a href="https://store.hyperz.net/">Hyperz#0001</a></p>
     </div>
   </body>
 </html>
